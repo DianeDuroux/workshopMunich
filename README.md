@@ -2,6 +2,8 @@
 
 ## Part 2 - Genomics, in R
 
+**Goal**: Create a genomic example for the students with the standard steps of a GWAS analysis.
+
 To run on rstudio cloud for example (https://rstudio.cloud)
 
 On public human GWAS data:
@@ -18,5 +20,8 @@ On public human GWAS data:
 
 To do:
 - Find public GWAS data or simulate
-- Replace 1_PLINK with the corresponding R code as it may be complex to make the students downlowd and use PLINK
-- Make sure 1_PLINK and 2_R correspond (data format, parameters...)
+- Step 2 to 5 in R 
+
+Comments:
+- step 1 to 5 correspond to the file 1_PLINK.txt (Goal: Replace 1_PLINK with the corresponding R code as it may be complex to make the students downlowd and use PLINK)
+- step 6 to 9 correspond to the file 2_R.txt
