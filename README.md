@@ -15,3 +15,8 @@ On public human GWAS data:
 7. Network representation of GWAS and GWAIS
 8. Network analysis (e.g. degree, largest connected component)
 9. Pathway analysis (optional)
+
+To do:
+- Find public GWAS data or simulate
+- Replace 1_PLINK with the corresponding R code as it may be complex to make the students downlowd and use PLINK
+- Make sure 1_PLINK and 2_R correspond (data format, parameters...)
