@@ -1,0 +1,53 @@
+#Install and load packages
+install.packages("data.table")
+install.packages("igraph")
+library(data.table)
+library(igraph)
+
+#Import data
+gwas=fread("plink.qassoc")
+gwais=fread("plink.epi.qt")
+head(gwas)
+head(gwais)
+
+#Multiple testing 
+threshold_gwas=5*10^(-8) #gwas usual significance threshold
+threshold_gwais=0.05/choose(38225,2) #38,225 SNPs tested
+gwas=gwas[gwas$P<threshold_gwas,]
+gwais=gwais[gwais$P<threshold_gwais,]
+
+#Network
+nodes=data.frame(unique(c(gwas$SNP, gwais$SNP1, gwais$SNP2)))
+colnames(nodes)="SNP"
+nodes=merge(nodes, gwas[,c("SNP", "P")], by="SNP", all.x=T)
+nodes[is.na(nodes)] <- 1 #Replace NA with pvalue=1 (ie non sign)
+edges=gwais[,c("SNP1", "SNP2", "P")]
+network <- graph_from_data_frame(d=edges, vertices=nodes)
+
+normalize <- function(x, na.rm = TRUE) {
+    return((x- min(x)) /(max(x)-min(x)))
+}
+
+V(network)$size <- normalize(-log10(as.numeric(nodes$P)))*50
+V(network)$frame.color <- "white"
+V(network)$label <- ""
+E(network)$arrow.mode <- 0
+E(network)$width <- normalize(-log10(as.numeric(edges$P)))*50
+E(network)$label <- ""
+#plot(network, main="Genetic analysis", cex.main=50, margin=c(0,0,0,0))
+plot(network, margin=c(0,0,0,0))
+
+############
+# Analysis #
+############
+
+#Largest component
+comp=components(network, mode = c("weak", "strong"))
+max(comp$csize)
+
+#degree
+deg=degree(network,mode="all")
+averageDegree=mean(deg)
+medDegree=median(deg)
+averageDegree
+medDegree

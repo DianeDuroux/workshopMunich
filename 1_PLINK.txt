@@ -1,0 +1,21 @@
+#Download PLINK
+#Download data
+
+#Explore data
+plink --file data
+
+#Quality controls
+#maf
+plink --bfile data--maf 0.01 --make-bed --out maf
+
+#LD pruning
+plink --bfile maf --indep-pairwise 50 5 0.75 --out prune_75
+plink --bfile maf --extract prune_75.prune.in --make-bed --out data_QC
+
+#PCA?
+
+#GWAS
+plink --bfile data_QC --assoc
+
+#GWAIS
+plink --file data_QC --epistasis 
